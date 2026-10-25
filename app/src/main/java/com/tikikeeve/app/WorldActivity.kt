@@ -30,7 +30,7 @@ class WorldActivity : Activity() {
     private lateinit var api: WorldApi
     private lateinit var controls: ControlsView
     private lateinit var guard: MemoryGuard
-    private lateinit var overlay: LinearLayout
+    private lateinit var errorPanel: LinearLayout
     private lateinit var overlayTitle: TextView
     private lateinit var overlayBody: TextView
 
@@ -99,7 +99,7 @@ class WorldActivity : Activity() {
 
         overlayTitle = TextView(this).apply { textSize = 24f; setTextColor(0xFFFF5555.toInt()) }
         overlayBody = TextView(this).apply { textSize = 13f; setTextColor(Color.WHITE); typeface = android.graphics.Typeface.MONOSPACE }
-        overlay = LinearLayout(this).apply {
+        errorPanel = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setBackgroundColor(0xF2000000.toInt())
             setPadding(48, 80, 48, 48)
@@ -113,7 +113,7 @@ class WorldActivity : Activity() {
         setContentView(FrameLayout(this).apply {
             addView(surface, FrameLayout.LayoutParams(-1, -1))
             addView(controls, FrameLayout.LayoutParams(-1, -1))
-            addView(overlay, FrameLayout.LayoutParams(-1, -1))
+            addView(errorPanel, FrameLayout.LayoutParams(-1, -1))
         })
 
         controls.debug = "loading…"
@@ -167,7 +167,7 @@ class WorldActivity : Activity() {
         runCatching { api.shutdown() }
         overlayTitle.text = title
         overlayBody.text = body
-        overlay.visibility = View.VISIBLE
+        errorPanel.visibility = View.VISIBLE
     }
 
     override fun onPause() {
